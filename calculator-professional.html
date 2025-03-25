@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Simple Calculator Using JavaScript</title>
+    
+    <style>
+        /* Styling the main container to define its width */
+        .container {
+            width: 300px;
+            margin: auto;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+        
+        /* Input section styles */
+        .input {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        /* Styling the input field where users enter expressions */
+        #input-field {
+            width: 100%;
+            height: 50px;
+            margin-bottom: 10px;
+            font-size: 1em;
+            font-weight: bold;
+            text-align: right;
+            border: 2px solid #000;
+            outline: none;
+            padding: 5px;
+        }
+        
+        /* Styling the output field to display results */
+        #output-field {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #000;
+        }
+        
+        /* Common font settings for input and output fields */
+        #input-field, #output-field {
+            font-family: 'Courier New', monospace;
+        }
+        
+        /* Styling the calculator buttons */
+        .btn {
+            padding: 10px 20px;
+            margin-right: 4px;
+            font-size: 0.8em;
+            font-weight: bold;
+            color: #fff;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+        
+        /* Primary button style for the Calculate button */
+        .btn-primary {
+            background: #007bff;
+        }
+        
+        /* Danger button style for the Clear button */
+        .btn-danger {
+            background: #dc4c64;
+        }
+    </style>
+    
+    <script>
+        /**
+         * Validates the user input to ensure it only contains numbers and arithmetic operators.
+         * @param {string} input - The user input string.
+         * @returns {boolean} - Returns true if input is valid, false otherwise.
+         */
+        function validateInput(input) {
+            const regex = /^[0-9+\-*/().]+$/gm; // Allows numbers, +, -, *, /, (, and )
+            return regex.test(input);
+        }
+
+        /**
+         * Evaluates the mathematical expression entered by the user.
+         * Displays the result in the output field or shows an error if input is invalid.
+         */
+        function calculate() {
+            const inputField = document.getElementById("input-field");
+            const outputField = document.getElementById("output-field");
+
+            // Error Handle
+            try {
+                let inputString = inputField.value.trim(); // Trim spaces for cleaner input
+
+                // Validate input to ensure only valid mathematical expressions are processed
+                if (!validateInput(inputString)) {
+                    outputField.innerHTML = "Invalid Input!";
+                    outputField.style.color = "#dc4c64"; // Change output color for errors
+                } else {
+                    outputField.innerHTML = eval(inputString); // Evaluate expression safely
+                    outputField.style.color = "#000"; // Reset output color
+                }
+            } catch (err) {
+                // Handle any syntax errors in the input
+                // outputField.innerHTML = err.massage;
+                outputField.innerHTML = "Syntax Error!";
+                outputField.style.color = "#dc4c64";
+            }
+        };
+
+        /**
+         * Clears both the input and output fields, resetting the calculator.
+         */
+        function clearFields() {
+            document.getElementById("input-field").value = ""; // Clear input
+            document.getElementById("output-field").innerHTML = "0"; // Reset output
+        }
+    </script>
+</head>
+
+<body>
+    <div class="container">
+        <h2>Simple Calculator</h2>
+        
+        <!-- Input section for entering expressions -->
+        <div class="input">
+            <input type="text" id="input-field" name="input-field" placeholder="Enter expression"/>
+            <div class="button-group">
+                <!-- Button to perform calculation -->
+                <button class="btn btn-primary" onclick="calculate()">Calculate</button>
+                <!-- Button to clear input and output -->
+                <button class="btn btn-danger" onclick="clearFields()">Clear</button>
+            </div>
+        </div>
+        
+        <hr/>
+        
+        <!-- Output section to display calculation results -->
+        <div class="output">
+            <h3>Output:</h3>
+            <span id="output-field">0</span>
+        </div>
+    </div>
+</body>
+</html>
